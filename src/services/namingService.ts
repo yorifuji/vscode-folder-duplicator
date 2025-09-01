@@ -18,7 +18,7 @@ export class AutoTimestampNamingStrategy implements NamingStrategy {
   }
 
   private removeExistingTimestamp(name: string): string {
-    // .14桁の数字で終わる場合は削除
+    // Remove suffix if it ends with a dot followed by 14 digits
     return name.replace(/\.\d{14}$/, '');
   }
 

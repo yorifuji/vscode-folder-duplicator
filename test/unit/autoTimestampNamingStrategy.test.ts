@@ -45,11 +45,11 @@ describe('AutoTimestampNamingStrategy', () => {
       const mockDate = new Date('2025-01-01T10:30:45');
       vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
 
-      // .123 は14桁ではないので削除されない
+      // .123 is not 14 digits, so it should not be removed
       const result1 = strategy.generateName('project.123');
       expect(result1).toBe('project.123.20250101103045');
 
-      // .12345678901234 は14桁なので削除される
+      // .12345678901234 is 14 digits, so it should be removed
       const result2 = strategy.generateName('project.12345678901234');
       expect(result2).toBe('project.20250101103045');
     });
@@ -58,13 +58,13 @@ describe('AutoTimestampNamingStrategy', () => {
       const mockDate = new Date('2025-01-01T10:30:45');
       vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
 
-      // 空の名前
+      // Empty name
       expect(strategy.generateName('')).toBe('.20250101103045');
       
-      // ドットのみ
+      // Dot only
       expect(strategy.generateName('.')).toBe('..20250101103045');
       
-      // タイムスタンプのみ
+      // Timestamp only
       expect(strategy.generateName('20250101103045')).toBe('20250101103045.20250101103045');
     });
   });

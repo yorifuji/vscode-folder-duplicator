@@ -12,7 +12,7 @@ export class DuplicateFolderCommand {
       const workspaceFolders = this.vscode.getWorkspaceFolders();
       
       if (!workspaceFolders || workspaceFolders.length === 0) {
-        await this.vscode.showErrorMessage('フォルダが開かれていません');
+        await this.vscode.showErrorMessage('No workspace folder is open');
         return;
       }
 
@@ -20,20 +20,19 @@ export class DuplicateFolderCommand {
       const sourcePath = currentFolder.uri.fsPath;
       const folderName = path.basename(sourcePath);
 
-      // 自動でタイムスタンプ付きの名前を生成
+      // Generate a timestamped name automatically
       const autoNamingStrategy = new AutoTimestampNamingStrategy();
       const suggestedName = autoNamingStrategy.generateName(folderName);
 
       const newName = await this.vscode.showInputBox({
-        prompt: '新しいフォルダ名を入力してください（Enterで自動生成名を使用）',
-        placeHolder: suggestedName,
+        prompt: 'Enter a new folder name',
         value: suggestedName,
         validateInput: (value: string) => {
           if (!value || value.trim() === '') {
-            return 'フォルダ名を入力してください';
+            return 'Please enter a folder name';
           }
           if (value.includes('/') || value.includes('\\')) {
-            return 'フォルダ名に / や \\ は使用できません';
+            return 'Folder name cannot contain / or \\' ;
           }
           return undefined;
         }
@@ -46,22 +45,20 @@ export class DuplicateFolderCommand {
       await this.vscode.withProgress(
         {
           location: 15,
-          title: 'フォルダを複製しています...',
+          title: 'Duplicating folder...',
           cancellable: false
         },
         async (progress) => {
-          progress.report({ message: '準備中...', increment: 10 });
+          progress.report({});
 
           const fileSystem = new NodeFileSystemAdapter();
           const namingStrategy = new CustomNamingStrategy(newName);
           const service = new FolderDuplicationService(fileSystem, namingStrategy);
 
-          progress.report({ message: 'フォルダをコピー中...', increment: 30 });
-
           const targetPath = service.generateTargetPath(sourcePath);
           const availablePath = await service.findAvailablePath(targetPath);
 
-          // 設定から除外パターンを取得
+          // Get exclude patterns from settings
           const excludePatterns = this.vscode.getConfiguration<string[]>('excludePatterns', []);
 
           await service.duplicateFolder({
@@ -69,8 +66,6 @@ export class DuplicateFolderCommand {
             targetPath: availablePath,
             excludePatterns
           });
-
-          progress.report({ message: '新しいウィンドウで開いています...', increment: 50 });
 
           const newUri: Uri = {
             fsPath: availablePath,
@@ -83,17 +78,15 @@ export class DuplicateFolderCommand {
           };
 
           await this.vscode.openFolder(newUri, true);
-
-          progress.report({ message: '完了', increment: 10 });
         }
       );
 
       await this.vscode.showInformationMessage(
-        `フォルダが正常に複製されました: ${newName}`
+        `Folder duplicated successfully: ${newName}`
       );
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
-      await this.vscode.showErrorMessage(`フォルダの複製に失敗しました: ${message}`);
+      await this.vscode.showErrorMessage(`Failed to duplicate folder: ${message}`);
     }
   }
 }

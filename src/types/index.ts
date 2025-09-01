@@ -22,7 +22,7 @@ export interface VSCodeAdapter {
   showInformationMessage(message: string): Promise<void>;
   withProgress<R>(
     options: ProgressOptions,
-    task: (progress: Progress<{ message?: string; increment?: number }>) => Promise<R>
+    task: (progress: Progress<{ message?: string; increment?: number }>, token: CancellationToken) => Promise<R>
   ): Promise<R>;
   openFolder(uri: Uri, newWindow: boolean): Promise<void>;
 }
@@ -64,4 +64,9 @@ export interface ProgressOptions {
 
 export interface Progress<T> {
   report(value: T): void;
+}
+
+export interface CancellationToken {
+  readonly isCancellationRequested: boolean;
+  readonly onCancellationRequested: (listener: () => void) => { dispose(): void };
 }

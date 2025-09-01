@@ -32,7 +32,7 @@ export class VSCodeApiAdapter implements VSCodeAdapter {
 
   async withProgress<R>(
     options: ProgressOptions,
-    task: (progress: Progress<{ message?: string; increment?: number }>) => Promise<R>
+    task: (progress: Progress<{ message?: string; increment?: number }>, token: any) => Promise<R>
   ): Promise<R> {
     return vscode.window.withProgress(
       {

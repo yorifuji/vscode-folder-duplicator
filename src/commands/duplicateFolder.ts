@@ -46,14 +46,23 @@ export class DuplicateFolderCommand {
         {
           location: 15,
           title: 'Duplicating folder...',
-          cancellable: false
+          cancellable: true
         },
-        async (progress) => {
+        async (progress, token) => {
+          // Helper function to check for cancellation
+          const checkCancellation = () => {
+            if (token.isCancellationRequested) {
+              throw new Error('Operation cancelled');
+            }
+          };
+
           progress.report({});
 
           const fileSystem = new NodeFileSystemAdapter();
           const namingStrategy = new CustomNamingStrategy(newName);
           const service = new FolderDuplicationService(fileSystem, namingStrategy);
+
+          checkCancellation();
 
           const targetPath = service.generateTargetPath(sourcePath);
           const availablePath = await service.findAvailablePath(targetPath);
@@ -61,11 +70,15 @@ export class DuplicateFolderCommand {
           // Get exclude patterns from settings
           const excludePatterns = this.vscode.getConfiguration<string[]>('excludePatterns', []);
 
+          checkCancellation();
+
           await service.duplicateFolder({
             sourcePath,
             targetPath: availablePath,
             excludePatterns
           });
+
+          checkCancellation();
 
           const newUri: Uri = {
             fsPath: availablePath,

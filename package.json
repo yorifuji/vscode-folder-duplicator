@@ -6,6 +6,7 @@
   "publisher": "yorifuji",
   "author": "yorifuji",
   "license": "MIT",
+  "type": "module",
   "homepage": "https://github.com/yorifuji/vscode-folder-duplicator",
   "bugs": {
     "url": "https://github.com/yorifuji/vscode-folder-duplicator/issues"
@@ -19,7 +20,9 @@
   },
   "categories": ["Other"],
   "icon": "icon.png",
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:folder-duplicator.duplicate"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [

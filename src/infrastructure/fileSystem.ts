@@ -1,4 +1,4 @@
-import { cp, access, mkdir } from 'fs/promises';
+import { cp, access } from 'fs/promises';
 import * as path from 'path';
 import { FileSystemAdapter } from '../types';
 
@@ -25,10 +25,6 @@ export class NodeFileSystemAdapter implements FileSystemAdapter {
     } catch {
       return false;
     }
-  }
-
-  async createDirectory(path: string): Promise<void> {
-    await mkdir(path, { recursive: true });
   }
 
   private shouldExclude(name: string, patterns: string[]): boolean {

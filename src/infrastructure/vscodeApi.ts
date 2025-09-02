@@ -32,7 +32,10 @@ export class VSCodeApiAdapter implements VSCodeAdapter {
 
   async withProgress<R>(
     options: ProgressOptions,
-    task: (progress: Progress<{ message?: string; increment?: number }>, token: any) => Promise<R>
+    task: (
+      progress: Progress<{ message?: string; increment?: number }>,
+      token: import('../types').CancellationToken
+    ) => Promise<R>
   ): Promise<R> {
     return vscode.window.withProgress(
       {
@@ -40,7 +43,21 @@ export class VSCodeApiAdapter implements VSCodeAdapter {
         title: options.title,
         cancellable: options.cancellable
       },
-      task as any
+      async (progress, token) => {
+        const wrappedProgress: Progress<{ message?: string; increment?: number }> = {
+          report: (value) => progress.report(value)
+        };
+
+        const wrappedToken = {
+          get isCancellationRequested() { return token.isCancellationRequested; },
+          onCancellationRequested: (listener: () => void) => {
+            const disposable = token.onCancellationRequested(() => listener());
+            return { dispose: () => disposable.dispose() };
+          }
+        } satisfies import('../types').CancellationToken;
+
+        return task(wrappedProgress, wrappedToken);
+      }
     );
   }
 

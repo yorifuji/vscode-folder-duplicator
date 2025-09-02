@@ -11,7 +11,6 @@ export interface NamingStrategy {
 export interface FileSystemAdapter {
   copyDirectory(source: string, target: string, excludePatterns?: string[]): Promise<void>;
   exists(path: string): Promise<boolean>;
-  createDirectory(path: string): Promise<void>;
 }
 
 export interface VSCodeAdapter {

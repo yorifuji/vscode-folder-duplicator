@@ -2,7 +2,7 @@
   "name": "folder-duplicator",
   "displayName": "Folder Duplicator",
   "description": "Duplicate current workspace folder and open in new window",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "yorifuji",
   "author": "yorifuji",
   "license": "MIT",
@@ -18,7 +18,9 @@
   "engines": {
     "vscode": "^1.95.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "icon": "icon.png",
   "activationEvents": [
     "onCommand:folder-duplicator.duplicate"

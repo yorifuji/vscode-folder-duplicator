@@ -11,6 +11,7 @@ export class NodeFileSystemAdapter implements FileSystemAdapter {
     await cp(source, target, {
       recursive: true,
       dereference: false,
+      verbatimSymlinks: true,
       filter: (src) => {
         const name = path.basename(src);
         return !this.shouldExclude(name, excludePatterns);

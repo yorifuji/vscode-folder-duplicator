@@ -9,8 +9,9 @@ export class NodeFileSystemAdapter implements FileSystemAdapter {
     excludePatterns: string[] = []
   ): Promise<void> {
     await cp(source, target, {
-      recursive: true,
       dereference: false,
+      preserveTimestamps: true,
+      recursive: true,
       verbatimSymlinks: true,
       filter: (src) => {
         const name = path.basename(src);

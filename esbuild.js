@@ -8,6 +8,7 @@ async function main() {
     entryPoints: ['src/extension.ts'],
     bundle: true,
     format: 'esm',
+    target: 'es2023',
     minify: production,
     sourcemap: !production,
     sourcesContent: false,

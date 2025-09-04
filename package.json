@@ -2,7 +2,7 @@
   "name": "folder-duplicator",
   "displayName": "Folder Duplicator",
   "description": "Duplicate current workspace folder and open in new window",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "yorifuji",
   "author": "yorifuji",
   "license": "MIT",

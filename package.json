@@ -1,7 +1,7 @@
 {
   "name": "folder-duplicator",
-  "displayName": "Folder Duplicator",
-  "description": "Duplicate current workspace folder and open in new window",
+  "displayName": "%displayName%",
+  "description": "%description%",
   "version": "0.0.3",
   "publisher": "yorifuji",
   "author": "yorifuji",
@@ -22,24 +22,21 @@
     "Other"
   ],
   "icon": "icon.png",
-  "activationEvents": [
-    "onCommand:folder-duplicator.duplicate"
-  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "folder-duplicator.duplicate",
-        "title": "Duplicate Current Folder"
+        "title": "%command.duplicate.title%"
       }
     ],
     "configuration": {
-      "title": "Folder Duplicator",
+      "title": "%configuration.title%",
       "properties": {
         "folderDuplicator.excludePatterns": {
           "type": "array",
           "default": [],
-          "description": "Patterns to exclude when duplicating folders (e.g., ['node_modules', '.git', '*.log'])",
+          "description": "%configuration.excludePatterns.description%",
           "items": {
             "type": "string"
           }

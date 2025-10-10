@@ -1,0 +1,7 @@
+{
+  "displayName": "フォルダー複製",
+  "description": "現在のワークスペースフォルダーを複製して新しいウィンドウで開く",
+  "command.duplicate.title": "現在のフォルダーを複製",
+  "configuration.title": "フォルダー複製",
+  "configuration.excludePatterns.description": "フォルダー複製時に除外するパターン (例: ['node_modules', '.git', '*.log'])"
+}

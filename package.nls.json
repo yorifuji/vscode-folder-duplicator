@@ -1,0 +1,7 @@
+{
+  "displayName": "Folder Duplicator",
+  "description": "Duplicate current workspace folder and open in new window",
+  "command.duplicate.title": "Duplicate Current Folder",
+  "configuration.title": "Folder Duplicator",
+  "configuration.excludePatterns.description": "Patterns to exclude when duplicating folders (e.g., ['node_modules', '.git', '*.log'])"
+}

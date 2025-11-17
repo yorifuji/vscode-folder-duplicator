@@ -1,6 +1,6 @@
 # Folder Duplicator
 
-VS Code extension: Duplicate the currently open folder and open it in a new window.
+Duplicate the currently open folder and open it in a new window.
 
 ## Features
 
